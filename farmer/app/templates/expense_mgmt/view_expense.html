@@ -1,0 +1,31 @@
+<!-- expense_mgmt/view_expense.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expense Details</title>
+</head>
+<body>
+
+<h2>Expense Details</h2>
+
+<table border="1">
+    <tr>
+        <th>Expense ID</th>
+        <td>{{ expense.expense_id }}</td>
+    </tr>
+    <tr>
+        <th>Type</th>
+        <td>{{ expense.expense_type }}</td>
+    </tr>
+    <tr>
+        <th>Amount</th>
+        <td>{{ expense.amount }}</td>
+    </tr>
+    <tr>
+        <th>Description</th>
+        <td>{{ expense.description }}</td>
+    </tr>
+</table>
+
+</body>
+</html>

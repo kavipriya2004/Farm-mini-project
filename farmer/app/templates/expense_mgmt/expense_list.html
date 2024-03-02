@@ -1,0 +1,46 @@
+<!-- expense_mgmt/expense_list.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expense Management - Expense List</title>
+</head>
+<body>
+
+<h1>Expense Management - Expense List</h1>
+
+<!-- Display a table of expenses -->
+<table border="1">
+    <thead>
+        <tr>
+            <th>Expense ID</th>
+            <th>Farm Name</th> <!-- New column for Farm Name -->
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for expense in expenses %}
+        <tr>
+            <td>{{ expense.expense_id }}</td>
+            <td>{{ expense.farm.farm_name }}</td> <!-- Display Farm Name -->
+            <td>{{ expense.expense_type }}</td>
+            <td>{{ expense.amount }}</td>
+            <td>{{ expense.description }}</td>
+            <td>
+                <a href="{% url 'app:view_expense' expense.expense_id %}">View Details</a>
+                <a href="{% url 'app:edit_expense' expense.expense_id %}">Edit</a>
+                <form method="post" action="{% url 'app:delete_expense' expense.expense_id %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'app:add_expense' %}">Add New Expense</a>
+
+</body>
+</html>

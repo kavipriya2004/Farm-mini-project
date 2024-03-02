@@ -1,0 +1,71 @@
+<!-- expense_report.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expense Report</title>
+</head>
+<body>
+
+<h1>Expense Report</h1>
+
+<!-- Display filters and form to generate reports -->
+<form method="get" action="{% url 'app:detailed_reports' %}">
+    <label for="expense_type">Expense Type:</label>
+    <select name="expense_type">
+        <option value="" selected>All</option>
+        <!-- Populate expense types from the database -->
+        {% for expense_type in expense_types %}
+            <option value="{{ expense_type }}">{{ expense_type }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="farm_id">Farm:</label>
+    <select name="farm_id">
+        <option value="" selected>All</option>
+        <!-- Populate farms from the database -->
+        {% for farm in farms %}
+            <option value="{{ farm.farm_id }}">{{ farm.farm_name }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="start_date">Start Date:</label>
+    <input type="date" name="start_date">
+
+    <label for="end_date">End Date:</label>
+    <input type="date" name="end_date">
+
+    <button type="submit">Generate Report</button>
+</form>
+
+<!-- Display the expense report table -->
+<table border="1">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Farm</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for expense in expenses %}
+            <tr>
+                <td>{{ expense.expense_id }}</td>
+                <td>{{ expense.expense_date }}</td>
+                <td>{{ expense.amount }}</td>
+                <td>{{ expense.expense_type }}</td>
+                <td>{{ expense.description }}</td>
+                <td>{{ expense.farm.farm_name }}</td>
+                <td><a href="{% url 'app:set_budget' expense_id=expense.expense_id %}">Set Budget</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+    <a href="{% url 'app:financial_reports' %}">Financial Report</a>
+</div>
+
+</body>
+</html>

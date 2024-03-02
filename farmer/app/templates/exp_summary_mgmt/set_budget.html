@@ -1,0 +1,18 @@
+<!-- set_budget.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Set Budget</title>
+</head>
+<body>
+
+<h1>Set Budget for {{ expense.description }}</h1>
+
+<form method="post" action="">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Set Budget</button>
+</form>
+
+</body>
+</html>

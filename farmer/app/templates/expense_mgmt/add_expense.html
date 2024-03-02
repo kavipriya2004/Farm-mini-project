@@ -1,0 +1,53 @@
+<!-- expense_mgmt/add_expense.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Expense</title>
+</head>
+<body>
+
+<h2>Add Expense</h2>
+
+<form method="post" action="{% url 'app:add_expense' %}">
+    {% csrf_token %}
+    
+    <!-- Display form errors -->
+    {% if expense_form.errors %}
+        <div class="alert alert-danger">
+            <strong>Error(s):</strong>
+            <ul>
+                {% for error in expense_form.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <!-- Display form fields separately -->
+    <div>
+        <label for="{{ expense_form.farm_name.id_for_label }}">Farm Name:</label>
+        {{ expense_form.farm_name }}
+        <!-- Display custom farm_name error message -->
+        {{ expense_form.farm_name.errors.first }}
+    </div>
+    
+    <div>
+        <label for="{{ expense_form.expense_type.id_for_label }}">Expense Type:</label>
+        {{ expense_form.expense_type }}
+    </div>
+
+    <div>
+        <label for="{{ expense_form.amount.id_for_label }}">Amount:</label>
+        {{ expense_form.amount }}
+    </div>
+
+    <div>
+        <label for="{{ expense_form.description.id_for_label }}">Description:</label>
+        {{ expense_form.description }}
+    </div>
+
+    <button type="submit">Submit</button>
+</form>
+
+</body>
+</html>

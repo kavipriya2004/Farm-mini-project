@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- Add your CSS links or styles here -->
+    <style>
+        ul {
+            font-size: 25px;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px; /* Add padding for better spacing */
+        }
+
+        header {
+            text-align: center;
+            background-color: #3498db; /* Colorful background */
+            padding: 20px; /* Add padding for better spacing */
+            color: #fff; /* Text color */
+        }
+
+        h1, h2 {
+            color: #343a40;
+        }
+
+        p.center-text {
+            text-align: center; /* Center-align the first paragraph */
+            color: #555;
+        }
+
+        p.m {
+            padding-left: 70px;
+            color: #555;
+            font-size: 25px; /* Adjust the size according to your preference */
+            font-family: 'Helvetica Neue', Arial, sans-serif; /* Use a standard font */
+            line-height: 1.5; /* Adjust line height for better readability */
+        }
+
+        .summary {
+            margin-bottom: 20px;
+        }
+
+        .management-links {
+            display: flex;
+            justify-content: space-between;
+            overflow: hidden;
+            opacity: 0; /* Initially set opacity to 0 to hide the cards */
+            transition: opacity 3s ease-in-out; /* Slow fade-in effect (2 seconds) */
+        }
+
+        .management-card {
+            flex: 1;
+            background-color: #EADFB4;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            margin: 10px;
+        }
+
+        .management-card:hover {
+            transform: scale(1.05);
+        }
+
+        .management-links h2 {
+            margin-bottom: 10px;
+        }
+
+        .management-links ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .management-links li {
+            margin-bottom: 10px;
+        }
+
+        .management-links a {
+            text-decoration: none;
+            color: #007bff;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .management-links a:hover {
+            color: #0056b3;
+        }
+
+        /* Additional style for the register link */
+        .register-link {
+            position: absolute;
+            top: 30px;
+            right: 35px;
+            text-decoration: none;
+            color: #35374B;
+            font-weight: bold;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .register-link:hover {
+            color: #FF004D;
+        }
+    </style>
+</head>
+<body>
+    <!-- Register link -->
+    <a href="{% url 'app:register' %}" class="register-link">Register</a>
+
+    <header>
+        <h1>Welcome to Your Dashboard</h1>
+        <p class="center-text">This is where you can manage your farming activities.</p>
+    </header>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <!-- Display summary information -->
+    <div class="summary">
+        <h2>Summary</h2>
+        <p class="m">Total Farms: {{ total_farms }}</p>
+        <p class="m">Total Crops: {{ total_crops }}</p>
+        <p class="m">Total Livestock: {{ total_livestock }}</p>
+        <!-- Add more summary information as needed -->
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <!-- Links to various management interfaces -->
+    <div class="management-links" id="management-links">
+        <a href="{% url 'app:farm_list' %}" class="management-card">
+            <h2>Manage Farms</h2>
+            <ul>
+                <li>View Farms</li>
+                <!-- Add more farm management links if needed -->
+            </ul>
+        </a>
+    
+        <a href="{% url 'app:crop_list' %}" class="management-card">
+            <h2>Manage Crops</h2>
+            <ul>
+                <li>View Crops</li>
+                <!-- Add more crop management links if needed -->
+            </ul>
+        </a>
+    
+        <a href="{% url 'app:livestock_list' %}" class="management-card">
+            <h2>Manage Livestock</h2>
+            <ul>
+                <li>View Livestock</li>
+                <!-- Add more livestock management links if needed -->
+            </ul>
+        </a>
+        <a href="{% url 'app:expense_list' %}" class="management-card">
+            <h2>manage expense</h2>
+            <ul>
+                <li>View expenses</li>
+                <!-- Add more crop management links if needed -->
+            </ul>
+        </a>
+        <br>
+        <a href="{% url 'app:expense_summary' %}" class="management-card">
+            <h2>manage summary</h2>
+            <ul>
+                <li>View expense summery</li>
+                <!-- Add more crop management links if needed -->
+            </ul>
+        </a>
+    </div>
+    
+
+    <!-- Add your JavaScript files or scripts here -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Add the fade-in animation class to the management links
+            document.getElementById("management-links").style.opacity = "1";
+        });
+    </script>
+</body>
+</html>

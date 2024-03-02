@@ -1,0 +1,87 @@
+<!-- signup.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+
+    <!-- Add styles here -->
+    <style>
+                /* Style the default validation messages only when input is focused */
+        form input:focus:invalid {
+            border-color: #ff6b6b; /* Change border color for invalid input */
+        }
+
+        form input:focus:invalid + span {
+            color: #ff6b6b; /* Change text color for invalid input messages */
+            display: block; /* Ensure the error messages are displayed as block */
+            margin-top: 4px; /* Add some space between input and error message */
+        }
+
+        /* Style the first line of default validation messages only when input is focused */
+        form input:focus:invalid + span::first-line {
+            font-weight: bold; /* Make the first line bold */
+            text-transform: capitalize; /* Capitalize the first letter of each sentence */
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px; /* Add padding for better spacing */
+        }
+        
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+        
+        form {
+            max-width: 900px;
+            width: 100%;
+            margin: 20px auto; /* Center the form horizontally */
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold; /* Make labels bold */
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            display: block;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+    </style>
+</head>
+<body>
+    <h2>Sign Up</h2>
+    <form method="post" action="{% url 'app:signup' %}">
+        {% csrf_token %}
+        {{ user_form.as_p }}
+        <button type="submit">Sign Up</button>
+    </form>
+</body>
+</html>
