@@ -1,7 +1,7 @@
     # forms.py
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import Farmer,Farm,Crop,Livestock,Expense
+from .models import Farmer,Farm,Crop,Livestock,Expense,Sale
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
@@ -55,3 +55,21 @@ class BudgetForm(forms.ModelForm):
     class Meta:
         model = Expense
         fields = ['budget']
+
+class SaleForm(forms.ModelForm):
+    class Meta:
+        model = Sale
+        fields = ['product_name', 'quantity', 'unit_price', 'date', 'image', 'farm']
+
+    def __init__(self, *args, **kwargs):
+        # Extract 'farmer' from kwargs or set it to None
+        farmer = kwargs.pop('farmer', None)
+
+        super().__init__(*args, **kwargs)
+
+        # Filter farms based on the farms owned by the specific farmer
+        if farmer:
+            farms = Farm.objects.filter(farmer=farmer)
+            self.fields['farm'].queryset = farms
+
+    # Optionally, you can add validation or custom behavior here

@@ -1,5 +1,7 @@
 from django.urls import path
 from app import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 app_name='app'
 
@@ -38,4 +40,11 @@ urlpatterns = [
    
     path('set_budget/<int:expense_id>/', views.set_budget, name='set_budget'),
     path('financial_reports/', views.financial_reports, name='financial_reports'),
+
+    path('add_sale/',views.add_sale, name='add_sale'),
+    path('sale_list/', views.sale_list, name='sale_list'),
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

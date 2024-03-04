@@ -60,3 +60,20 @@ class Expense(models.Model):
 
     def __str__(self):
         return f"Expense {self.expense_id} - {self.description}"
+
+class Sale(models.Model):
+    product_name = models.CharField(max_length=255)
+    quantity = models.PositiveIntegerField()
+    unit_price = models.DecimalField(max_digits=10, decimal_places=2)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    date = models.DateField()
+    image = models.ImageField(upload_to='sale_images/', blank=True, null=True)
+    farm = models.ForeignKey('Farm', on_delete=models.CASCADE)  # Add this line
+
+    def save(self, *args, **kwargs):
+        # Calculate total amount before saving
+        self.total_amount = self.unit_price * self.quantity
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.product_name} - {self.date}"

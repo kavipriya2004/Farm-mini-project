@@ -6,7 +6,7 @@
     <title>Dashboard</title>
     <!-- Add your CSS links or styles here -->
     <style>
-        ul {
+        ul {    
             font-size: 25px;
         }
 
@@ -91,29 +91,53 @@
             color: #0056b3;
         }
 
-        /* Additional style for the register link */
-        .register-link {
-            position: absolute;
-            top: 30px;
-            right: 35px;
+        nav {
+            background-color: #2c3e50; /* Background color for the navigation bar */
+            padding: 15px;
+        }
+
+        ul.nav-menu {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        ul.nav-menu li {
+            margin-right: 20px;
+        }
+
+        ul.nav-menu li a {
             text-decoration: none;
-            color: #35374B;
+            color: #ecf0f1; /* Text color for navigation links */
+            font-size: 18px;
             font-weight: bold;
             transition: color 0.3s ease-in-out;
         }
 
-        .register-link:hover {
-            color: #FF004D;
+        ul.nav-menu li a:hover {
+            color: #3498db; /* Hover color for navigation links */
         }
+
     </style>
 </head>
 <body>
     <!-- Register link -->
-    <a href="{% url 'app:register' %}" class="register-link">Register</a>
+    
 
     <header>
         <h1>Welcome to Your Dashboard</h1>
         <p class="center-text">This is where you can manage your farming activities.</p>
+
+        <nav>
+            <ul class="nav-menu">
+                <!-- ... other navigation links ... -->
+                <li><a href="{% url 'app:add_sale' %}">Add Sale</a></li>
+                <li><a href="{% url 'app:register' %}">Register</a></li>
+                <li><a href="{% url 'app:sale_list' %}">view sales</a></li>
+                <!-- ... other navigation links ... -->
+            </ul>
+        </nav>
     </header>
 
     <br>

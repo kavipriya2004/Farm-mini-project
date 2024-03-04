@@ -2,10 +2,10 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login
-from .forms import UserRegistrationForm, FarmerRegistrationForm,FarmForm,CropForm,LivestockForm,ExpenseForm,BudgetForm
+from .forms import UserRegistrationForm, FarmerRegistrationForm,FarmForm,CropForm,LivestockForm,ExpenseForm,BudgetForm,SaleForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Farm,Crop,Livestock,Expense
+from .models import Farm,Crop,Livestock,Expense,Sale
 from django.db import models
 
 
@@ -322,3 +322,25 @@ def financial_reports(request):
         'expenses': expenses,
     }
     return render(request, 'exp_summary_mgmt/financial_reports.html', context)
+
+
+
+def add_sale(request):
+    # Get the farmer associated with the logged-in user
+    farmer = request.user.farmer if request.user.is_authenticated else None
+
+    if request.method == 'POST':
+        form = SaleForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('app:sale_list')
+    else:
+        # Pass the 'farmer' argument to SaleForm when rendering the form initially
+        form = SaleForm(farmer=farmer)
+
+    return render(request, 'sales_mgmt/add_sale.html', {'form': form})
+
+
+def sale_list(request):
+    sales = Sale.objects.all()
+    return render(request, 'sales_mgmt/sale_list.html', {'sales': sales})
