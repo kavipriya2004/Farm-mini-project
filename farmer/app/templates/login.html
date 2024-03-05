@@ -1,5 +1,5 @@
 <!-- login.html -->
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,26 +11,43 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            flex-direction: column; /* Align contents vertically */
-            text-align: center; /* Center-align text in the container */
+            flex-direction: column;
+            text-align: center;
+            overflow: hidden; /* Ensure the blurred effect doesn't overflow */
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('{% static "log.jpg" %}'); 
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px); /* Apply the blur effect */
+            z-index: -1; /* Place the pseudo-element behind the content */
         }
 
         h1 {
-            text-align: center;
-            color: #333;
+            text-align: center; 
+            color: #070F2B;
+            font-size:80px;
+            margin-bottom:20px;
         }
 
         form {
             max-width: 400px;
             width: 100%;
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.8); /* Add a semi-transparent white background for better readability */
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -40,8 +57,10 @@
             display: block;
             margin-bottom: 8px;
             color: #555;
+            text-align: left;
+            font-weight:bold;
         }
-
+        
         input {
             width: 100%;
             padding: 8px;
@@ -56,7 +75,7 @@
             color: #fff;
             padding: 10px;
             border: none;
-            border-radius: 4px;
+            border-radius: 50px;
             cursor: pointer;
             width: 100%;
         }
@@ -68,12 +87,13 @@
         p {
             text-align: center;
             margin-top: 16px;
-            color: #555;
+            color: #070F2B;
         }
 
         a {
-            color: #3498db;
+            color: #070F2B;
             text-decoration: none;
+            font-weight:bold;
         }
 
         a:hover {
