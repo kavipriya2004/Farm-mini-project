@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Farm,Crop,Livestock,Expense,Sale
 from django.db import models
-
+from django.urls import reverse
 
 @login_required
 def register_view(request):
@@ -323,8 +323,7 @@ def financial_reports(request):
     }
     return render(request, 'exp_summary_mgmt/financial_reports.html', context)
 
-
-
+#----------------------------------------------------------------------------------
 def add_sale(request):
     # Get the farmer associated with the logged-in user
     farmer = request.user.farmer if request.user.is_authenticated else None
@@ -344,3 +343,17 @@ def add_sale(request):
 def sale_list(request):
     sales = Sale.objects.all()
     return render(request, 'sales_mgmt/sale_list.html', {'sales': sales})
+
+def remove_sale(request, sale_id):
+    sale = get_object_or_404(Sale, id=sale_id)
+    sale.delete()
+    return redirect('app:sale_list')  # Redirect to the sale list pag
+
+#-----------------------------------------------------------------------------
+def switch_language(request, language):
+    next_url = request.META.get('HTTP_REFERER', reverse('app:dashboard'))
+    response = redirect(next_url)
+    response.set_cookie('django_language', language)
+    return response
+
+#--------------------------------------------------------------------------

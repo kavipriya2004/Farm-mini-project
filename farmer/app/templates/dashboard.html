@@ -1,4 +1,6 @@
 {% load static %}
+{% load i18n %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -173,32 +175,31 @@
     
 
     <header>
-        <h1>Welcome to Your Dashboard</h1>
-        <p class="center-text">This is where you can manage your farming activities.</p>
+        <h1>{% trans "Welcome to Your Dashboard" %}</h1>
+        <p class="center-text">{% trans "This is where you can manage your farming activities." %}</p>
 
         <nav>
             <ul class="nav-menu">
                 <!-- ... other navigation links ... -->
-                <li><a href="{% url 'app:add_sale' %}">Add Sale</a></li>
-                <li><a href="{% url 'app:register' %}">Register</a></li>
-                <li><a href="{% url 'app:sale_list' %}">view sales</a></li>
+                <li><a href="{% url 'app:add_sale' %}">{% trans "Add Sale" %}</a></li>
+                <li><a href="{% url 'app:register' %}">{% trans "Register" %}</a></li>
+                <li><a href="{% url 'app:sale_list' %}">{% trans "view sales" %}</a></li>
                 <!-- ... other navigation links ... -->
             </ul>
-        </nav>
+        </nav>       
     </header>
-
     <br>
     <br>
     <br>
-    <br>
+    <br>   
     <br>
     <!-- Display summary information -->
     <div class="summary-container">
         <div class="summary">
-            <h2>Summary</h2>
-            <p class="m">Total Farms: {{ total_farms }}</p>
-            <p class="m">Total Crops: {{ total_crops }}</p>
-            <p class="m">Total Livestock: {{ total_livestock }}</p>
+            <h2> {% trans "Summary" %}</h2>
+            <p class="m">{% trans "Total Farms" %}: {{ total_farms }}</p>
+            <p class="m">{% trans "Total Crops" %}: {{ total_crops }}</p>
+            <p class="m">{% trans "Total Livestock" %}: {{ total_livestock }}</p>
             <!-- Add more summary information as needed -->
         </div>
     </div>
@@ -211,40 +212,50 @@
     <!-- Links to various management interfaces -->
     <div class="management-links" id="management-links">
         <a href="{% url 'app:farm_list' %}" class="management-card">
-            <h2>Manage Farms</h2>
+            <h2>{% trans "Manage Farms" %}
+            </h2>
             <ul>
-                <li>-View Farms</li>
+                <li>-{% trans "View Farms" %}
+                </li>
                 <!-- Add more farm management links if needed -->
             </ul>
         </a>
     
         <a href="{% url 'app:crop_list' %}" class="management-card">
-            <h2>Manage Crops</h2>
+            <h2>{% trans "Manage Crops" %}
+            </h2>
             <ul>
-                <li>-View Crops</li>
+                <li>-{% trans "View Crops" %}
+                </li>
                 <!-- Add more crop management links if needed -->
             </ul>
         </a>
     
         <a href="{% url 'app:livestock_list' %}" class="management-card">
-            <h2>Manage Livestock</h2>
+            <h2>{% trans "Manage Livestock" %}
+            </h2>
             <ul>
-                <li>-View Livestock</li>
+                <li>-{% trans "View Livestock" %}
+                </li>
                 <!-- Add more livestock management links if needed -->
             </ul>
         </a>
         <a href="{% url 'app:expense_list' %}" class="management-card">
-            <h2>Manage expense</h2>
+            <h2>{% trans "Manage expense" %}
+            </h2>
             <ul>
-                <li>-View expenses</li>
+                <li>-{% trans "View expenses" %}
+                </li>
                 <!-- Add more crop management links if needed -->
             </ul>
         </a>
         <br>
         <a href="{% url 'app:expense_summary' %}" class="management-card">
-            <h2>Manage summary</h2>
+            <h2>{% trans "Manage summary" %}
+            </h2>
             <ul>
-                <li>-View expense summary</li>
+                <li>-{% trans "View expense summary" %}
+                </li>
                 <!-- Add more crop management links if needed -->
             </ul>
         </a>

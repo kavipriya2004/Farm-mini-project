@@ -43,6 +43,11 @@ urlpatterns = [
 
     path('add_sale/',views.add_sale, name='add_sale'),
     path('sale_list/', views.sale_list, name='sale_list'),
+    path('remove_sale/<int:sale_id>/', views.remove_sale, name='remove_sale'),
+
+
+    path('switch-language/<str:language>/', views.switch_language, name='switch_language'),
+
 ]
 
 

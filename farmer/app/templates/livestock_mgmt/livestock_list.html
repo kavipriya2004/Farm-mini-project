@@ -12,7 +12,7 @@
         }
 
         h1 {
-            color: #333;
+            color: #343a40;
         }
 
         table {
@@ -41,6 +41,12 @@
             color: #007bff;
             text-decoration: none;
             margin-right: 10px;
+            transition: color 0.3s ease-in-out;
+        }
+
+        a:hover {
+            color: #0056b3;
+            text-decoration: underline;
         }
 
         form {
@@ -53,10 +59,27 @@
             border: none;
             padding: 8px 12px;
             cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease-in-out;
         }
 
-        a:hover, button:hover {
-            text-decoration: underline;
+        button:hover {
+            background-color: #c82333;
+        }
+
+        .add-livestock-link {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border-radius: 5px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .add-livestock-link:hover {
+            background-color: #218838;
         }
     </style>
 </head>
@@ -117,7 +140,7 @@
         {% endfor %}
     </tbody>
 </table>
-<a href="{% url 'app:add_livestock' %}">Add New Livestock</a>
+<a class="add-livestock-link" href="{% url 'app:add_livestock' %}">Add New Livestock</a>
 
 </body>
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
     <title>Sale List</title>
     <style>
@@ -30,35 +31,78 @@
             margin: 15px;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out; /* Add a smooth transform effect on hover */
+            overflow: hidden; /* Hide overflowing content */
+        }
+
+        .card:hover {
+            transform: scale(1.05); /* Enlarge the card on hover */
+        }
+
+        h3 {
+            color: #007bff; /* Set heading color */
+            margin-bottom: 10px; /* Add margin to separate heading from other text */
+        }
+
+        p {
+            color: #555; /* Set text color */
+            margin-bottom: 8px; /* Add margin to separate paragraphs */
+        }
+
+        strong {
+            color: #000000; /* Set strong text color */
         }
 
         img {
             max-width: 100%;
             height: auto;
             margin-bottom: 10px;
+            border-radius: 8px; /* Add a more pronounced border radius to images */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow to images */
+        }
+        .remove-button {
+            display: block;
+            background-color: #dc3545; /* Set button background color */
+            color: #fff; /* Set button text color */
+            padding: 8px 12px; /* Add padding to the button */
+            text-align: center; /* Center the text within the button */
+            text-decoration: none; /* Remove default underline */
+            border: none; /* Remove button border */
+            border-radius: 10px; /* Add border-radius to round the corners */
+            cursor: pointer; /* Add a pointer cursor on hover */
+            transition: background-color 0.3s ease-in-out; /* Add a smooth transition effect */
+        }
+        
+        .remove-button:hover {
+            background-color: #c82333; /* Darken the background color on hover */
         }
     </style>
 </head>
+
 <body>
 
-<h1>Sale List</h1>
+    <h1>Sale List</h1>
 
-<div class="card-container">
-    {% for sale in sales %}
+    <div class="card-container">
+        {% for sale in sales %}
         <div class="card">
+            {% if user.is_authenticated and sale.farm.farmer.user == user %}
+                <a href="{% url 'app:remove_sale' sale.id %}" class="remove-button">Remove</a>
+            {% endif %}
             <h3>{{ sale.product_name }}</h3>
-            <p><strong>Quantity:</strong> {{ sale.quantity }}</p>
-            <p><strong>Unit Price:</strong> {{ sale.unit_price }}</p>
-            <p><strong>Date:</strong> {{ sale.date }}</p>
+            <p><strong>Quantity(in Kgs,.):</strong> {{ sale.quantity }}</p>
+            <p><strong>Unit Price(in ₹/kg,.):</strong> {{ sale.unit_price }}</p>
+            <p><strong>Date(YYYY-MM-DD,.):</strong> {{ sale.date }}</p>
             {% if sale.image %}
-                <img src="{{ sale.image.url }}" alt="Product Image">
+            <img src="{{ sale.image.url }}" alt="Product Image">
             {% else %}
-                <p>No Image</p>
+            <p>No Image</p>
             {% endif %}
             <p><strong>Farm:</strong> {{ sale.farm.farm_name }}</p>
         </div>
-    {% endfor %}
-</div>
+        {% endfor %}
+    </div>
 
 </body>
+
 </html>
