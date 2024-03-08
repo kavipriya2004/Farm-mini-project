@@ -11,6 +11,9 @@ class Farmer(models.Model):
     state = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
     zip_code = models.CharField(max_length=20)
+    sales = models.ForeignKey('Sale', on_delete=models.CASCADE, related_name='farmer_sales', blank=True, null=True)
+    def __str__(self):
+        return f"{self.user.username} - {self.sales.count()} sales"
 
 class Farm(models.Model):
     farm_id = models.AutoField(primary_key=True)
@@ -68,12 +71,13 @@ class Sale(models.Model):
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     date = models.DateField()
     image = models.ImageField(upload_to='sale_images/', blank=True, null=True)
-    farm = models.ForeignKey('Farm', on_delete=models.CASCADE)  # Add this line
+    farm = models.ForeignKey('Farm', on_delete=models.CASCADE) 
+    expense = models.ForeignKey(Expense, on_delete=models.CASCADE, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         # Calculate total amount before saving
         self.total_amount = self.unit_price * self.quantity
-        super().save(*args, **kwargs)
+        super().save(*args, **kwargs)   
 
     def __str__(self):
         return f"{self.product_name} - {self.date}"

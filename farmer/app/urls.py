@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 app_name='app'
 
 urlpatterns = [
-    path('',views.login_view,name='login'),
+    path('',views.login_view,name='login_page'),
     path('signup/',views.signup_view,name='signup'),
     path('register/',views.register_view,name='register'),
     path('dashboard/',views.dashboard_view,name='dashboard'),
@@ -47,6 +47,8 @@ urlpatterns = [
 
 
     path('switch-language/<str:language>/', views.switch_language, name='switch_language'),
+
+    path('custom_logout/', views.custom_logout, name='custom_logout'),
 
 ]
 

@@ -13,7 +13,7 @@ class UserRegistrationForm(UserCreationForm):
 class FarmerRegistrationForm(forms.ModelForm):
     class Meta:
         model = Farmer
-        exclude = ['user']  # Exclude the 'user' field as it will be populated automatically
+        exclude = ['user','sales']  # Exclude the 'user' field as it will be populated automatically
 
 class FarmForm(forms.ModelForm):
     class Meta:
@@ -61,15 +61,27 @@ class SaleForm(forms.ModelForm):
         model = Sale
         fields = ['product_name', 'quantity', 'unit_price', 'date', 'image', 'farm']
 
+    
     def __init__(self, *args, **kwargs):
-        # Extract 'farmer' from kwargs or set it to None
         farmer = kwargs.pop('farmer', None)
 
         super().__init__(*args, **kwargs)
 
-        # Filter farms based on the farms owned by the specific farmer
         if farmer:
             farms = Farm.objects.filter(farmer=farmer)
             self.fields['farm'].queryset = farms
+
+            # Check if the farmer has expense records
+            has_expense_records = Expense.objects.filter(farmer=farmer).exists()
+
+            if not has_expense_records:
+                # If no expense records, disable the form or display a message
+                self.fields['product_name'].widget.attrs['disabled'] = True
+                self.fields['quantity'].widget.attrs['disabled'] = True
+                self.fields['unit_price'].widget.attrs['disabled'] = True
+                self.fields['date'].widget.attrs['disabled'] = True
+                self.fields['image'].widget.attrs['disabled'] = True
+                self.fields['farm'].widget.attrs['disabled'] = True
+                self.fields['farm'].help_text = 'You need to fill in expense details first.'
 
     # Optionally, you can add validation or custom behavior here

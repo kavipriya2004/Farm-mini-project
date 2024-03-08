@@ -57,7 +57,7 @@ ROOT_URLCONF = 'farmer.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "app"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -146,5 +146,6 @@ MEDIA_ROOT = BASE_DIR / "media"
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
+LOGIN_REDIRECT_URL = 'app:dashboard'
 
 

@@ -43,7 +43,7 @@
         }
 
         h1{
-            font-size:50px;
+            font-size:65px;
             color: #000000;
 
         }
@@ -55,6 +55,7 @@
         p.center-text {
             text-align: center; /* Center-align the first paragraph */
             color: #000000;
+            font-size:20px;
         }
 
         p.m {
@@ -166,8 +167,29 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(1px); /* Apply the blur effect to the background */
         }
-    
 
+        .welcome-container {
+            background-color: rgba(255, 255, 255, 0.3); /* Adjust the alpha value for transparency */
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(1px); /* Apply the blur effect to the background */
+            text-align: center;
+        }
+        .disabled-link {
+            color: #C7C8CC; /* You can adjust the color for disabled links */
+            pointer-events: none;
+            text-decoration: none;
+            color: #ecf0f1; /* Text color for navigation links */
+            font-size: 18px;
+            font-weight: bold;
+        }   
+        .disabled-link span {
+            text-decoration: none;
+            color: #ecf0f1; /* Text color for navigation links */
+            font-size: 18px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -175,16 +197,34 @@
     
 
     <header>
-        <h1>{% trans "Welcome to Your Dashboard" %}</h1>
-        <p class="center-text">{% trans "This is where you can manage your farming activities." %}</p>
-
+        <div class="welcome-container">
+            <h1>{% trans "Welcome to Your Dashboard" %}</h1>
+            <p class="center-text">{% trans "This is where you can manage your farming activities." %}</p>
+        </div>
+    
         <nav>
             <ul class="nav-menu">
-                <!-- ... other navigation links ... -->
-                <li><a href="{% url 'app:add_sale' %}">{% trans "Add Sale" %}</a></li>
+                <li>
+                    {% if request.user.farmer %}
+                        <a href="{% url 'app:add_sale' %}">{% trans "Add Sale" %}</a>
+                    {% else %}
+                        <span class="disabled-link">{% trans "Add Sale" %}</span>
+                    {% endif %}
+                </li>
                 <li><a href="{% url 'app:register' %}">{% trans "Register" %}</a></li>
-                <li><a href="{% url 'app:sale_list' %}">{% trans "view sales" %}</a></li>
-                <!-- ... other navigation links ... -->
+                <li>
+                    {% if request.user.farmer %}
+                        <a href="{% url 'app:sale_list' %}">{% trans "View Sales" %}</a>
+                    {% else %}
+                        <span class="disabled-link">{% trans "View Sales" %}</span>
+                    {% endif %}
+                </li>
+                <li style="margin-left: auto;">
+                    <a href="{% url 'app:custom_logout' %}" style="display: flex; align-items: center;">
+                        <img src="{% static 'logout.png' %}" alt="Logout" style="width: 20px; height: 20px; margin-right: 5px;">
+                        {% trans "Logout" %}
+                    </a>
+                </li>
             </ul>
         </nav>       
     </header>
@@ -211,50 +251,73 @@
 
     <!-- Links to various management interfaces -->
     <div class="management-links" id="management-links">
-        <a href="{% url 'app:farm_list' %}" class="management-card">
-            <h2>{% trans "Manage Farms" %}
-            </h2>
+        <a href="{% url 'app:farm_list' %}" class="management-card {% if not request.user.farmer %}disabled-link{% endif %}">
+            <h2>{% trans "Manage Farms" %}</h2>
             <ul>
-                <li>-{% trans "View Farms" %}
+                <li>
+                    {% if request.user.farmer %}
+                        -{% trans "View Farms" %}
+                    {% else %}
+                        <span>{% trans "View Farms" %}</span>
+                    {% endif %}
                 </li>
                 <!-- Add more farm management links if needed -->
             </ul>
         </a>
-    
-        <a href="{% url 'app:crop_list' %}" class="management-card">
-            <h2>{% trans "Manage Crops" %}
-            </h2>
+
+        <a href="{% url 'app:crop_list' %}" class="management-card {% if not request.user.farmer %}disabled-link{% endif %}">
+            <h2>{% trans "Manage Crops" %}</h2>
             <ul>
-                <li>-{% trans "View Crops" %}
+                <li>
+                    {% if request.user.farmer %}
+                        -{% trans "View Crops" %}
+                    {% else %}
+                        <span>{% trans "View Crops" %}</span>
+                    {% endif %}
                 </li>
                 <!-- Add more crop management links if needed -->
             </ul>
         </a>
-    
-        <a href="{% url 'app:livestock_list' %}" class="management-card">
-            <h2>{% trans "Manage Livestock" %}
-            </h2>
+
+        <a href="{% url 'app:livestock_list' %}" class="management-card {% if not request.user.farmer %}disabled-link{% endif %}">
+            <h2>{% trans "Manage Livestock" %}</h2>
             <ul>
-                <li>-{% trans "View Livestock" %}
+                <li>
+                    {% if request.user.farmer %}
+                        -{% trans "View Livestock" %}
+                    {% else %}
+                        <span>{% trans "View Livestock" %}</span>
+                    {% endif %}
                 </li>
                 <!-- Add more livestock management links if needed -->
             </ul>
         </a>
-        <a href="{% url 'app:expense_list' %}" class="management-card">
-            <h2>{% trans "Manage expense" %}
-            </h2>
+
+        <a href="{% url 'app:expense_list' %}" class="management-card {% if not request.user.farmer %}disabled-link{% endif %}">
+            <h2>{% trans "Manage expense" %}</h2>
             <ul>
-                <li>-{% trans "View expenses" %}
+                <li>
+                    {% if request.user.farmer %}
+                        -{% trans "View expenses" %}
+                    {% else %}
+                        <span>{% trans "View expenses" %}</span>
+                    {% endif %}
                 </li>
                 <!-- Add more crop management links if needed -->
             </ul>
         </a>
+
         <br>
-        <a href="{% url 'app:expense_summary' %}" class="management-card">
-            <h2>{% trans "Manage summary" %}
-            </h2>
+
+        <a href="{% url 'app:expense_summary' %}" class="management-card {% if not request.user.farmer %}disabled-link{% endif %}">
+            <h2>{% trans "Manage summary" %}</h2>
             <ul>
-                <li>-{% trans "View expense summary" %}
+                <li>
+                    {% if request.user.farmer %}
+                        -{% trans "View expense summary" %}
+                    {% else %}
+                        <span>{% trans "View expense summary" %}</span>
+                    {% endif %}
                 </li>
                 <!-- Add more crop management links if needed -->
             </ul>

@@ -83,26 +83,27 @@
 
     <h1>Sale List</h1>
 
+    {% if sales %}
     <div class="card-container">
         {% for sale in sales %}
-        <div class="card">
-            {% if user.is_authenticated and sale.farm.farmer.user == user %}
+            <div class="card">
                 <a href="{% url 'app:remove_sale' sale.id %}" class="remove-button">Remove</a>
-            {% endif %}
-            <h3>{{ sale.product_name }}</h3>
-            <p><strong>Quantity(in Kgs,.):</strong> {{ sale.quantity }}</p>
-            <p><strong>Unit Price(in ₹/kg,.):</strong> {{ sale.unit_price }}</p>
-            <p><strong>Date(YYYY-MM-DD,.):</strong> {{ sale.date }}</p>
-            {% if sale.image %}
-            <img src="{{ sale.image.url }}" alt="Product Image">
-            {% else %}
-            <p>No Image</p>
-            {% endif %}
-            <p><strong>Farm:</strong> {{ sale.farm.farm_name }}</p>
-        </div>
+                <h3>{{ sale.product_name }}</h3>
+                <p><strong>Quantity(in Kgs,.):</strong> {{ sale.quantity }}</p>
+                <p><strong>Unit Price(in ₹/kg,.):</strong> {{ sale.unit_price }}</p>
+                <p><strong>Date(YYYY-MM-DD,.):</strong> {{ sale.date }}</p>
+                {% if sale.image %}
+                    <img src="{{ sale.image.url }}" alt="Product Image">
+                {% else %}
+                    <p>No Image</p>
+                {% endif %}
+                <p><strong>Farm:</strong> {{ sale.farm.farm_name }}</p>
+            </div>
         {% endfor %}
     </div>
-
+{% else %}
+    <p>No sales data available.</p>
+{% endif %}
 </body>
 
 </html>

@@ -1,11 +1,11 @@
 # views.py
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login
+from django.contrib.auth import login,logout
 from .forms import UserRegistrationForm, FarmerRegistrationForm,FarmForm,CropForm,LivestockForm,ExpenseForm,BudgetForm,SaleForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Farm,Crop,Livestock,Expense,Sale
+from .models import Farm,Crop,Livestock,Expense,Sale,Farmer
 from django.db import models
 from django.urls import reverse
 
@@ -23,7 +23,7 @@ def register_view(request):
             else:
                 # Handle the case where the user is not logged in
                 # Redirect to a login page or display an error message
-                return redirect('app:signup')  # Example redirect to login page
+                return redirect('app:register')  # Example redirect to login page
     else:
         farmer_form = FarmerRegistrationForm()
     return render(request, 'register.html', {'farmer_form': farmer_form})
@@ -36,7 +36,7 @@ def signup_view(request):
         if user_form.is_valid():
             user = user_form.save()
             messages.success(request, 'Your account has been created! You can now log in.')
-            return redirect('app:login')
+            return redirect('app:login_page')
     else:
         user_form = UserRegistrationForm()
     return render(request, 'signup.html', {'user_form': user_form})
@@ -257,27 +257,38 @@ def delete_expense(request, expense_id):
 
 #---------------------------------------------------------------------------------
 def expense_summary(request):
-    # Get all expense types
-    expense_types = Expense.objects.values_list('expense_type', flat=True).distinct()
-    # Calculate total expenses, average expenses, and other metrics (replace with actual logic)
-    total_expenses = Expense.objects.aggregate(total_expenses=models.Sum('amount'))['total_expenses'] or 0
-    total_count = Expense.objects.count()
-    average_expenses = total_expenses / total_count if total_count > 0 else 0
-    # Calculate expenses by type
-    expenses_by_type = [Expense.objects.filter(expense_type=expense_type).aggregate(total=models.Sum('amount'))['total'] or 0 for expense_type in expense_types]
-    # Calculate expense distribution for pie chart
-    total_amount = sum(expenses_by_type)
-    expense_distribution = [float(amount) / float(total_amount) * 100 if total_amount > 0 else 0 for amount in expenses_by_type]
-    expenses_by_type_str = [str(amount) for amount in expenses_by_type]
-    context = {
-        'total_expenses': total_expenses,
-        'average_expenses': average_expenses,
-        'expense_types': list(expense_types),
-        'expenses_by_type': expenses_by_type_str,
-        'expense_distribution': expense_distribution,
-        # Add other metrics to the context
-    }
-    return render(request, 'exp_summary_mgmt/expense_summary.html', context)
+    if request.user.is_authenticated:
+        farmer = Farmer.objects.filter(user=request.user).first()
+        if farmer:
+            # Check if the farmer has any associated expense details
+            has_expenses = Expense.objects.filter(farmer=farmer).exists()
+
+            if has_expenses:
+                # Get all expense types
+                expense_types = Expense.objects.values_list('expense_type', flat=True).distinct()
+                # Calculate total expenses, average expenses, and other metrics (replace with actual logic)
+                total_expenses = Expense.objects.aggregate(total_expenses=models.Sum('amount'))['total_expenses'] or 0
+                total_count = Expense.objects.count()
+                average_expenses = total_expenses / total_count if total_count > 0 else 0
+                # Calculate expenses by type
+                expenses_by_type = [Expense.objects.filter(expense_type=expense_type).aggregate(total=models.Sum('amount'))['total'] or 0 for expense_type in expense_types]
+                # Calculate expense distribution for pie chart
+                total_amount = sum(expenses_by_type)
+                expense_distribution = [float(amount) / float(total_amount) * 100 if total_amount > 0 else 0 for amount in expenses_by_type]
+                expenses_by_type_str = [str(amount) for amount in expenses_by_type]
+                context = {
+                    'total_expenses': total_expenses,
+                    'average_expenses': average_expenses,
+                    'expense_types': list(expense_types),
+                    'expenses_by_type': expenses_by_type_str,
+                    'expense_distribution': expense_distribution,
+                    'user_has_expenses': True,  # Add a flag to indicate the presence of expenses
+                    # Add other metrics to the context
+                }
+                return render(request, 'exp_summary_mgmt/expense_summary.html', context)
+
+    # If no expenses or user not authenticated, display a message
+    return render(request, 'exp_summary_mgmt/expense_summary.html', {'user_has_expenses': False})
 
 def detailed_reports(request):
     # Retrieve filters from the request if available
@@ -329,20 +340,35 @@ def add_sale(request):
     farmer = request.user.farmer if request.user.is_authenticated else None
 
     if request.method == 'POST':
-        form = SaleForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('app:sale_list')
+        # Check if the farmer has expense records
+        has_expense_records = Expense.objects.filter(farmer=farmer).exists()
+
+        # If the farmer has expense records, proceed with form submission
+        if has_expense_records:
+            form = SaleForm(request.POST, request.FILES, farmer=farmer)
+            if form.is_valid():
+                form.save()
+                return redirect('app:sale_list')
+        else:
+            # If no expense records, you can redirect to a page or display a message
+            return render(request, 'app/no_expense_records.html')
+
     else:
-        # Pass the 'farmer' argument to SaleForm when rendering the form initially
         form = SaleForm(farmer=farmer)
 
     return render(request, 'sales_mgmt/add_sale.html', {'form': form})
 
 
 def sale_list(request):
-    sales = Sale.objects.all()
-    return render(request, 'sales_mgmt/sale_list.html', {'sales': sales})
+    if request.user.is_authenticated:
+        farmer = Farmer.objects.filter(user=request.user).first()
+        if farmer:
+            # Check if the farmer has any associated sale details
+            sales = Sale.objects.filter(farm__farmer=farmer)
+            if sales.exists():
+                return render(request, 'sales_mgmt/sale_list.html', {'sales': sales})
+    # If no sales or user not authenticated, display a message
+    return render(request, 'sales_mgmt/sale_list.html', {'sales': None})
 
 def remove_sale(request, sale_id):
     sale = get_object_or_404(Sale, id=sale_id)
@@ -357,3 +383,23 @@ def switch_language(request, language):
     return response
 
 #--------------------------------------------------------------------------
+def custom_logout(request):
+    # Check if the user is authenticated
+    if request.user.is_authenticated:
+        # Store user data before deleting
+        user_data = {
+            'username': request.user.username,
+            'email': request.user.email,
+        }
+
+        # Delete the user (this will delete related data in other tables if set up with CASCADE)
+        request.user.delete()
+
+        # Log out the user
+        logout(request)
+
+        messages.success(request, f'User {user_data["username"]} has been successfully logged out.')
+    else:
+        messages.warning(request, 'You are not logged in.')
+
+    return redirect('app:login_page')

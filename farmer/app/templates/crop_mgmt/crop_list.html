@@ -50,7 +50,6 @@
 
         a:hover {
             color: #0056b3;
-            text-decoration: underline;
         }
 
         form {
@@ -108,6 +107,7 @@
         </thead>
         <tbody>
             {% for crop in crops %}
+            {% if crop.farm.farmer.user == request.user and crop.crop_id %}
             <tr>
                 <td>{{ crop.crop_id }}</td>
                 <td>{{ crop.crop_name }}</td>
@@ -130,6 +130,7 @@
                     {% endif %}
                 </td>
             </tr>
+            {% endif %}
             {% endfor %}
         </tbody>
     </table>

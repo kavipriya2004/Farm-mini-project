@@ -106,6 +106,7 @@
         </thead>
         <tbody>
             {% for farm in farms %}
+            {% if farm.farmer.user == request.user and farm.farm_id %}
             <tr>
                 <td>{{ farm.farm_id }}</td>
                 <td>{{ farm.farmer.user.username }}</td>
@@ -126,12 +127,13 @@
                     {% endif %}
                 </td>
             </tr>
+            {% endif %}
             {% endfor %}
         </tbody>
     </table>
 
     <a class="add-farm-link" href="{% url 'app:add_farm' %}">Add New Farm</a>
-
+    
 </body>
 
 </html>
