@@ -105,6 +105,11 @@
         </div>
 
         <div>
+            <label for="{{ expense_form.expense_date.id_for_label }}">Expense Date:</label>
+            {{ expense_form.expense_date }}
+        </div>
+
+        <div>
             <label for="{{ expense_form.amount.id_for_label }}">Amount:</label>
             {{ expense_form.amount }}
         </div>

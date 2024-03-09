@@ -8,6 +8,8 @@ from django.contrib import messages
 from .models import Farm,Crop,Livestock,Expense,Sale,Farmer
 from django.db import models
 from django.urls import reverse
+from django.db.models import Sum, Avg
+
 
 @login_required
 def register_view(request):
@@ -216,12 +218,27 @@ def expense_list(request):
     expenses = Expense.objects.filter(farmer=request.user.farmer)
     return render(request, 'expense_mgmt/expense_list.html', {'expenses': expenses})
 
+from django.shortcuts import render
+from .forms import ExpenseForm  # Import your ExpenseForm
+
 def add_expense(request):
     if request.method == 'POST':
-        expense_form = ExpenseForm(request.POST)
+        expense_form = ExpenseForm(request.POST, farmer=request.user.farmer)
         if expense_form.is_valid():
             expense = expense_form.save(commit=False)
+
+            # Retrieve the selected farm name from the form
+            farm_name = expense_form.cleaned_data['farm_name']
+
+            # Get the corresponding farm object
+            farm = get_object_or_404(Farm, farmer=request.user.farmer, farm_name=farm_name)
+
+            # Set the farm field
+            expense.farm = farm
+
+            # Set the farmer field
             expense.farmer = request.user.farmer
+
             expense.save()
 
             messages.success(request, 'Expense added successfully!')
@@ -229,9 +246,10 @@ def add_expense(request):
         else:
             messages.error(request, 'Failed to add expense. Please correct the errors.')
     else:
-        expense_form = ExpenseForm()
+        expense_form = ExpenseForm(farmer=request.user.farmer)
 
     return render(request, 'expense_mgmt/add_expense.html', {'expense_form': expense_form})
+
 
 def view_expense(request, expense_id):
     expense = get_object_or_404(Expense, expense_id=expense_id)
@@ -239,14 +257,20 @@ def view_expense(request, expense_id):
 
 def edit_expense(request, expense_id):
     expense = get_object_or_404(Expense, expense_id=expense_id)
+    
     if request.method == 'POST':
-        form = ExpenseForm(request.POST, instance=expense)
+        form = ExpenseForm(request.POST, instance=expense, farmer=request.user.farmer)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Expense updated successfully!')
             return redirect('app:expense_list')
+        else:
+            messages.error(request, 'Failed to update expense. Please correct the errors.')
     else:
-        form = ExpenseForm(instance=expense)
+        form = ExpenseForm(instance=expense, farmer=request.user.farmer)
+
     return render(request, 'expense_mgmt/edit_expense.html', {'form': form, 'expense': expense})
+
 
 def delete_expense(request, expense_id):
     expense = get_object_or_404(Expense, expense_id=expense_id)
@@ -290,12 +314,15 @@ def expense_summary(request):
     # If no expenses or user not authenticated, display a message
     return render(request, 'exp_summary_mgmt/expense_summary.html', {'user_has_expenses': False})
 
+
+
 def detailed_reports(request):
     # Retrieve filters from the request if available
     expense_type = request.GET.get('expense_type')
     farm_id = request.GET.get('farm_id')
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
+    
     # Filter expenses based on provided filters
     expenses = Expense.objects.all()
     if expense_type:
@@ -305,12 +332,23 @@ def detailed_reports(request):
     if start_date:
         expenses = expenses.filter(expense_date__gte=start_date)
     if end_date:
-        expenses = expenses.filter(expense_date__lte=end_date)
+        expenses = expenses.filter(expense_date__lte=end_date) 
+      # Calculate overall total expenses and average expense
+    total_expenses = Expense.objects.aggregate(total_expenses=models.Sum('amount'))['total_expenses'] or 0
+    total_count = Expense.objects.count()
+    average_expense = total_expenses / total_count if total_count > 0 else 0  
 
+    total_budget_sum = Expense.objects.aggregate(total_budget_sum=Sum('budget'))['total_budget_sum'] or 0
+  
     context = {
-        'expenses': expenses,
-    }
+        'expenses':expenses,
+        'total_expenses': total_expenses,
+        'average_expense': average_expense,
+        'total_budget_sum': total_budget_sum,
+    }  
     return render(request, 'exp_summary_mgmt/detailed_reports.html', context)
+
+
 
 def set_budget(request, expense_id):
     expense = Expense.objects.get(expense_id=expense_id)
@@ -328,9 +366,16 @@ def financial_reports(request):
     # You may need to customize this based on your specific requirements
     expenses = Expense.objects.all()
     total_expenses = sum(expense.amount for expense in expenses)
+    total_income = Sale.objects.aggregate(total=Sum('total_amount'))['total'] or 0
+    net_benefit = total_income - total_expenses
+    profit_loss = "Profit" if net_benefit >= 0 else "Loss"
+
     context = {
         'total_expenses': total_expenses,
         'expenses': expenses,
+        'total_income': total_income,
+        'net_benefit': net_benefit,
+        'profit_loss': profit_loss,
     }
     return render(request, 'exp_summary_mgmt/financial_reports.html', context)
 

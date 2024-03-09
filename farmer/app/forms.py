@@ -37,19 +37,14 @@ class LivestockForm(forms.ModelForm):
         # You can customize the form fields here if needed
 
 class ExpenseForm(forms.ModelForm):
-    farm_name = forms.CharField(max_length=255)
+    farm_name = forms.ModelChoiceField(queryset=Farm.objects.none(), empty_label=None)
+    def __init__(self, *args, farmer=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if farmer:
+            self.fields['farm_name'].queryset = Farm.objects.filter(farmer=farmer)
     class Meta:
         model = Expense
-        fields = ['farm','expense_type','expense_date', 'amount', 'description']
-
-    def clean_farm_name(self):
-        farm_name = self.cleaned_data.get('farm_name')
-        # Check if the farm exists
-        try:
-            farm = Farm.objects.get(farm_name=farm_name)
-        except Farm.DoesNotExist:
-            raise ValidationError('Farm does not exist.')
-        return farm_name
+        fields = ['farm_name', 'expense_type', 'expense_date', 'amount', 'description']
 
 class BudgetForm(forms.ModelForm):
     class Meta:

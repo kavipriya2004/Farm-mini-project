@@ -60,6 +60,13 @@
         a:hover {
             text-decoration: underline;
         }
+
+        .net-benefit {
+            font-size: 18px;
+            font-weight: bold;
+            color: #28a745;  /* Green color for positive benefit */
+            margin-top: 20px;
+        }
     </style>
 </head>
 
@@ -68,7 +75,7 @@
     <h1>Financial Reports</h1>
 
     <!-- Display total expenses and a list of expenses -->
-    <p>Total Expenses: {{ total_expenses }}</p>
+    <p>Total Expenses: ₹{{ total_expenses }}</p>
 
     <table>
         <thead>
@@ -90,6 +97,26 @@
                     <td>{{ expense.farm.farm_name }}</td>
                 </tr>
             {% endfor %}
+        </tbody>
+    </table>
+    <table>
+        <thead>
+            <tr>
+    
+                <th>Total Expenses</th>
+                <th>Total Income</th>
+                <th>Net Benefit</th>
+                <th>Outcome</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+    
+                    <td>{{ total_expenses }}</td>
+                    <td>{{ total_income }}</td>
+                    <td>{{ net_benefit }}</td>
+                    <td>{{ profit_loss }}</td>
+                </tr>
         </tbody>
     </table>
 

@@ -2,6 +2,7 @@
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Sum
 
 class Farmer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -59,7 +60,7 @@ class Expense(models.Model):
     expense_type = models.CharField(max_length=20, default='')  # Add default value
     farmer = models.ForeignKey('Farmer', on_delete=models.CASCADE)
     budget = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    farm = models.ForeignKey(Farm, on_delete=models.CASCADE, default=1) 
+    farm = models.ForeignKey(Farm, on_delete=models.CASCADE) 
 
     def __str__(self):
         return f"Expense {self.expense_id} - {self.description}"
