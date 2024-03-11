@@ -3,6 +3,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Sum
+from django.forms import ValidationError
 
 class Farmer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -78,7 +79,11 @@ class Sale(models.Model):
     def save(self, *args, **kwargs):
         # Calculate total amount before saving
         self.total_amount = self.unit_price * self.quantity
-        super().save(*args, **kwargs)   
+        
+        # Check if the total amount is non-negative
+        if self.total_amount < 0:
+            raise ValidationError("Total amount of sale cannot be negative. Please insert a positive value.")
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.product_name} - {self.date}"
