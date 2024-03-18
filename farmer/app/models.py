@@ -76,13 +76,8 @@ class Sale(models.Model):
     farm = models.ForeignKey('Farm', on_delete=models.CASCADE) 
     expense = models.ForeignKey(Expense, on_delete=models.CASCADE, blank=True, null=True)
 
-    def save(self, *args, **kwargs):
-        # Calculate total amount before saving
+    def save(self, *args, **kwargs): 
         self.total_amount = self.unit_price * self.quantity
-        
-        # Check if the total amount is non-negative
-        if self.total_amount < 0:
-            raise ValidationError("Total amount of sale cannot be negative. Please insert a positive value.")
         super().save(*args, **kwargs)
 
     def __str__(self):

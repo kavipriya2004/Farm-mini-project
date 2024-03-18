@@ -9,6 +9,7 @@ from .models import Farm,Crop,Livestock,Expense,Sale,Farmer
 from django.db import models
 from django.urls import reverse
 from django.db.models import Sum, Avg
+from django.db import InternalError
 
 
 @login_required
@@ -392,8 +393,13 @@ def add_sale(request):
         if has_expense_records:
             form = SaleForm(request.POST, request.FILES, farmer=farmer)
             if form.is_valid():
-                form.save()
-                return redirect('app:sale_list')
+                try:
+                    form.save()
+                    return redirect('app:sale_list')
+                except InternalError:
+                    error_message = "Total amount of sale cannot be negative. Please insert a positive value."
+                    return render(request, 'sales_mgmt/error_page.html', {'error_message': error_message})
+       
         else:
             # If no expense records, you can redirect to a page or display a message
             return render(request, 'app/no_expense_records.html')
@@ -448,3 +454,8 @@ def custom_logout(request):
         messages.warning(request, 'You are not logged in.')
 
     return redirect('app:login_page')
+
+
+
+def error(request):
+    return render(request, 'error_page.html')

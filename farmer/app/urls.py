@@ -50,6 +50,8 @@ urlpatterns = [
 
     path('custom_logout/', views.custom_logout, name='custom_logout'),
 
+    path('error/', views.error, name='error'),
+
 ]
 
 
