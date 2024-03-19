@@ -9,7 +9,7 @@ from .models import Farm,Crop,Livestock,Expense,Sale,Farmer
 from django.db import models
 from django.urls import reverse
 from django.db.models import Sum, Avg
-from django.db import InternalError
+from django.db import DatabaseError
 
 
 @login_required
@@ -395,11 +395,14 @@ def add_sale(request):
             if form.is_valid():
                 try:
                     form.save()
+                    # Check if any negative values were converted to positive
+                    if form.instance.total_amount < 0 or form.instance.unit_price < 0:
+                        messages.info(request, "Negative values were automatically converted to positive.")
                     return redirect('app:sale_list')
-                except InternalError:
-                    error_message = "Total amount of sale cannot be negative. Please insert a positive value."
+                
+                except DatabaseError:
+                    error_message = "An error occurred while processing your request. Please try again later."
                     return render(request, 'sales_mgmt/error_page.html', {'error_message': error_message})
-       
         else:
             # If no expense records, you can redirect to a page or display a message
             return render(request, 'app/no_expense_records.html')

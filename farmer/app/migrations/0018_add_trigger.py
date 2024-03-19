@@ -10,11 +10,16 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RunSQL(
             """
-            CREATE OR REPLACE FUNCTION check_total_amount()
+            CREATE OR REPLACE FUNCTION check_total_amount_and_price()
             RETURNS TRIGGER AS $$
             BEGIN
                 IF NEW.total_amount < 0 THEN
-                    RAISE EXCEPTION 'Total amount of sale cannot be negative. Please insert a positive value.';
+                    NEW.total_amount = ABS(NEW.total_amount);
+                    RAISE NOTICE 'Negative total_amount automatically converted to positive.';
+                END IF;             
+                IF NEW.unit_price < 0 THEN
+                    NEW.unit_price = ABS(NEW.unit_price);
+                    RAISE NOTICE 'Negative unit_price automatically converted to positive.';
                 END IF;
                 RETURN NEW;
             END;

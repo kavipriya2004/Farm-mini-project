@@ -77,11 +77,32 @@
             background-color: #c82333; /* Darken the background color on hover */
         }
     </style>
+    <script>
+        window.onload = function() {
+            // Add a delay before showing the pop-up message
+            setTimeout(function() {
+                // Check if messages exist in the page
+                var messagesElement = document.querySelector(".messages");
+                if (messagesElement) {
+                    // Get the message content
+                    var messages = messagesElement.querySelectorAll("li");
+                    var messageContent = "";
+                    messages.forEach(function(message) {
+                        messageContent += message.textContent.trim() + "\n";
+                    });
+
+                    // Display the messages in a pop-up dialog
+                    alert(messageContent);
+                }
+            }, 100); // Adjust the delay time as needed
+        };
+    </script>
 </head>
 
 <body>
 
     <h1>Sale List</h1>
+    {% include 'sales_mgmt/messages.html' with class_name='hidden' %}
 
     {% if sales %}
     <div class="card-container">
