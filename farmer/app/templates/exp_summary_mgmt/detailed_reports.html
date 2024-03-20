@@ -105,7 +105,6 @@
     <form method="get" action="{% url 'app:detailed_reports' %}">
         <label for="expense_type">Expense Type:</label>
         <select name="expense_type">
-            <option value="" selected>All</option>
             <!-- Populate expense types from the database -->
             {% for expense_type in expense_types %}
                 <option value="{{ expense_type }}">{{ expense_type }}</option>
@@ -114,10 +113,9 @@
 
         <label for="farm_id">Farm:</label>
         <select name="farm_id">
-            <option value="" selected>All</option>
             <!-- Populate farms from the database -->
-            {% for farm in farms %}
-                <option value="{{ farm.farm_id }}">{{ farm.farm_name }}</option>
+            {% for farm_id, farm_name in farms %}
+                <option value="{{ farm_id }}">{{ farm_name }}</option>
             {% endfor %}
         </select>
 

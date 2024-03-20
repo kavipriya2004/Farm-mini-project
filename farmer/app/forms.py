@@ -21,16 +21,18 @@ class FarmForm(forms.ModelForm):
         fields = ['farm_name', 'location', 'total_acres', 'description']
 
 class CropForm(forms.ModelForm):
+    farm = forms.ModelChoiceField(queryset=Farm.objects.all(), empty_label="Select a farm")
     class Meta:
         model = Crop
-        fields = [ 'crop_name', 'planting_date', 'harvesting_date', 'yield_amount', 'notes']
-
+        fields = ['farm','crop_name', 'planting_date', 'harvesting_date', 'yield_amount', 'notes']
 
 
 class LivestockForm(forms.ModelForm):
+    farm = forms.ModelChoiceField(queryset=Farm.objects.all(), empty_label="Select a farm")
+
     class Meta:
         model = Livestock
-        fields = [ 'livestock_type', 'quantity', 'health_status', 'notes']
+        fields = [ 'farm','livestock_type', 'quantity', 'health_status', 'notes']
 
     def __init__(self, *args, **kwargs):
         super(LivestockForm, self).__init__(*args, **kwargs)

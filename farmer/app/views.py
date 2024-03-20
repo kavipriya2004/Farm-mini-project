@@ -130,19 +130,11 @@ def add_crop(request):
         crop_form = CropForm(request.POST)
         if crop_form.is_valid():
             crop = crop_form.save(commit=False)
-            farmer_farms = request.user.farmer.farms.all()  # Access all farms of the logged-in farmer
-            if farmer_farms:
-                crop.farm = farmer_farms.first()  # Assign the first farm of the logged-in farmer
-                crop.save()
-                return redirect('app:crop_list')
-            else:
-                # Handle the case where the farmer has no farms
-                # You might want to redirect to a page to add a farm or display an error message
-                return redirect('app:add_farm')  # Example redirect to add farm page
+            crop.save()
+            return redirect('app:crop_list')
     else:
         crop_form = CropForm()
     return render(request, 'crop_mgmt/add_crop.html', {'crop_form': crop_form})
-
 
 def edit_crop(request, crop_id):
     crop = get_object_or_404(Crop, crop_id=crop_id)
@@ -323,7 +315,6 @@ def detailed_reports(request):
     farm_id = request.GET.get('farm_id')
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
-    
     # Filter expenses based on provided filters
     expenses = Expense.objects.all()
     if expense_type:
@@ -334,18 +325,21 @@ def detailed_reports(request):
         expenses = expenses.filter(expense_date__gte=start_date)
     if end_date:
         expenses = expenses.filter(expense_date__lte=end_date) 
-      # Calculate overall total expenses and average expense
-    total_expenses = Expense.objects.aggregate(total_expenses=models.Sum('amount'))['total_expenses'] or 0
-    total_count = Expense.objects.count()
+    # Calculate overall total expenses and average expense based on filtered expenses
+    total_expenses = expenses.aggregate(total_expenses=models.Sum('amount'))['total_expenses'] or 0
+    total_count = expenses.count()
     average_expense = total_expenses / total_count if total_count > 0 else 0  
-
+    # Get distinct expense types and farms for dropdowns
+    expense_types = Expense.objects.order_by().values_list('expense_type', flat=True).distinct()
+    farms = Farm.objects.order_by().values_list('farm_id', 'farm_name')
     total_budget_sum = Expense.objects.aggregate(total_budget_sum=Sum('budget'))['total_budget_sum'] or 0
-  
     context = {
-        'expenses':expenses,
+        'expenses': expenses,
         'total_expenses': total_expenses,
         'average_expense': average_expense,
         'total_budget_sum': total_budget_sum,
+        'expense_types': expense_types,
+        'farms': farms,
     }  
     return render(request, 'exp_summary_mgmt/detailed_reports.html', context)
 
@@ -357,7 +351,7 @@ def set_budget(request, expense_id):
         form = BudgetForm(request.POST, instance=expense)
         if form.is_valid():
             form.save()
-            return redirect('app:expense_list')  # Redirect to the expense list or another appropriate page
+            return redirect('app:detailed_reports')  # Redirect to the expense list or another appropriate page
     else:
         form = BudgetForm(instance=expense)
     return render(request, 'exp_summary_mgmt/set_budget.html', {'form': form, 'expense': expense})
