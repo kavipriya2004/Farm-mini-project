@@ -82,3 +82,9 @@ msgstr "ಸಾರಾಂಶವನ್ನು ನಿರ್ವಹಿಸಿ"
 
 msgid "View expense summary"
 msgstr "ವೆಚ್ಚದ ಸಾರಾಂಶ ವೀಕ್ಷಿಸಿ"
+
+msgid "View Sales"
+msgstr "ಮಾರಾಟ ವೀಕ್ಷಿಸಿ"
+
+msgid "Logout"
+msgstr "ಲಾಗ್ ಔಟ್"

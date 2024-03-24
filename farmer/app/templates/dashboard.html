@@ -85,15 +85,21 @@
         }
         
         .management-card {
-            width: 300px; /* Set the width of each card */
-            height: 300px; /* Set the height of each card */
+            display:inline-block;
+            width: 800px; /* Set the width of each card */
+            height: 150px; /* Set the height of each card */
             background-color: #EEEDEB;
             padding: 20px;
             border-radius: 12px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             transition: transform 20s ease;
-            margin: 10px;
+            margin: 10px auto;
             box-sizing: border-box; /* Include padding and border in the total width */
+            background-position: right center; 
+            background-size: contain;
+            background-repeat: no-repeat;
+            filter: blur(2px); /* Apply default blur */
+            transition: filter 0.9s ease; /* Smooth transition for hover effect */
         }
         
         @media (max-width: 768px) {
@@ -105,7 +111,9 @@
 
         .management-card:hover {
             transform: scale(1.05);
-            background-color: #D9EDBF;
+            background-color: #FFB38E;
+            filter: blur(0); 
+            transition: transform 0.9s ease, background-color 0.9s ease; 
         }
 
         .management-links h2 {
@@ -129,7 +137,7 @@
         }
 
         .management-links a:hover {
-            color: #AC7D88;
+            color: #124076;
         }
 
         nav {
@@ -251,7 +259,7 @@
 
     <!-- Links to various management interfaces -->
     <div class="management-links" id="management-links">
-        <a href="{% url 'app:farm_list' %}" class="management-card {% if not request.user.farmer %}disabled-link{% endif %}">
+        <a href="{% url 'app:farm_list' %}" class="management-card {% if not request.user.farmer %}disabled-link{% endif %}" style="background-image:url('{% static "a1.png" %}');">
             <h2>{% trans "Manage Farms" %}</h2>
             <ul>
                 <li>
@@ -265,7 +273,7 @@
             </ul>
         </a>
 
-        <a href="{% url 'app:crop_list' %}" class="management-card {% if not request.user.farmer %}disabled-link{% endif %}">
+        <a href="{% url 'app:crop_list' %}" class="management-card {% if not request.user.farmer %}disabled-link{% endif %}" style="background-image:url('{% static "a2.png" %}');">
             <h2>{% trans "Manage Crops" %}</h2>
             <ul>
                 <li>
@@ -279,7 +287,7 @@
             </ul>
         </a>
 
-        <a href="{% url 'app:livestock_list' %}" class="management-card {% if not request.user.farmer %}disabled-link{% endif %}">
+        <a href="{% url 'app:livestock_list' %}" class="management-card {% if not request.user.farmer %}disabled-link{% endif %}" style="background-image:url('{% static "a3.png" %}');">
             <h2>{% trans "Manage Livestock" %}</h2>
             <ul>
                 <li>
@@ -293,7 +301,7 @@
             </ul>
         </a>
 
-        <a href="{% url 'app:expense_list' %}" class="management-card {% if not request.user.farmer %}disabled-link{% endif %}">
+        <a href="{% url 'app:expense_list' %}" class="management-card {% if not request.user.farmer %}disabled-link{% endif %}" style="background-image:url('{% static "a4.png" %}');">
             <h2>{% trans "Manage expense" %}</h2>
             <ul>
                 <li>
@@ -309,7 +317,7 @@
 
         <br>
 
-        <a href="{% url 'app:expense_summary' %}" class="management-card {% if not request.user.farmer %}disabled-link{% endif %}">
+        <a href="{% url 'app:expense_summary' %}" class="management-card {% if not request.user.farmer %}disabled-link{% endif %}" style="background-image:url('{% static "a5.png" %}');">
             <h2>{% trans "Manage summary" %}</h2>
             <ul>
                 <li>
