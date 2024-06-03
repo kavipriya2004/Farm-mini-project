@@ -3,23 +3,23 @@ Farm management system using Django, Python, HTML, CSS, JS, and PostgreSQL. Effi
 
 ## Getting Started
 
- -git clone "repository-link"
+ 1)git clone "repository-link"
 
- -cd "repo-name"
+ 2)cd "repo-name"
 
- -python -m venv env
+ 3)python -m venv env
 
- -Activate the virtual environment:
+ 4)Activate the virtual environment:
 
- -Create a "requirements.txt" file with the dependencies 
+ 5)Create a "requirements.txt" file with the dependencies 
 
- -pip install -r requirements.txt
+ 6)pip install -r requirements.txt
 
- -python manage.py migrate
+ 7)python manage.py migrate
 
- -python manage.py createsuperuser
+ 8)python manage.py createsuperuser
 
- -python manage.py runserver
+ 9)python manage.py runserver
 
 
 ### Prerequisites
@@ -61,15 +61,15 @@ After setting up the project and running the development server, you can access 
 
 ##### Contributing
 If you want to contribute to this project, please follow these steps:
-1.Fork the repository
-2.Clone your forked repository
-3.Create a new branch           
+1)Fork the repository
+2)Clone your forked repository
+3)Create a new branch           
             -git checkout -b "feature-branch"
-4.Make your changes and commit them
+4)Make your changes and commit them
             -git commit -m 'Add some feature'
-5.Push to the branch
+5)Push to the branch
             -git push origin "feature-branch"
-6.Create a new Pull Request
+6)Create a new Pull Request
 
 ###### License
 This project is licensed under the Apache License 2.0. See the LICENSE file for details.     
