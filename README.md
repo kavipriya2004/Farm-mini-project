@@ -53,24 +53,24 @@ List the software and tools that need to be installed.
 
 
 #### Usuage
-After setting up the project and running the development server, you can access the web application by navigating to http://127.0.0.1:8000/ in your web browser.
- 1)Login: Use the superuser credentials created during setup to log in to the admin interface at http://127.0.0.1:8000/admin/.
+After setting up the project and running the development server, you can access the web application by navigating to http://127.0.0.1:8000/ in your web browser.<br>
+ 1)Login: Use the superuser credentials created during setup to log in to the admin interface at http://127.0.0.1:8000/admin/.<br>
  2)Manage Farmers and Crops: Add, update, and delete farmer and crop records using the admin interface or the provided application forms.
 
 ##### Contributing
-If you want to contribute to this project, please follow these steps:
-1)Fork the repository
-2)Clone your forked repository
-3)Create a new branch           
-            -git checkout -b "feature-branch"
-4)Make your changes and commit them
-            -git commit -m 'Add some feature'
-5)Push to the branch
-            -git push origin "feature-branch"
-6)Create a new Pull Request
+If you want to contribute to this project, please follow these steps:<br>
+1)Fork the repository<br>
+2)Clone your forked repository<br>
+3)Create a new branch           <br>
+            -git checkout -b "feature-branch"<br>
+4)Make your changes and commit them<br>
+            -git commit -m 'Add some feature'<br>
+5)Push to the branch<br>
+            -git push origin "feature-branch"<br>
+6)Create a new Pull Request<br>
 
 ###### License
-This project is licensed under the Apache License 2.0. See the LICENSE file for details.     
+This project is licensed under the Apache License 2.0. See the LICENSE file for details.   <br>  
     Make sure to include a `LICENSE` file in your repository with the full text of the Apache License 2.0. You can create this file by going to your repository on GitHub, clicking on "Add file" -> "Create new file", naming it `LICENSE`, and then pasting the content of the Apache License 2.0 into it.
 
 ###### Installation
