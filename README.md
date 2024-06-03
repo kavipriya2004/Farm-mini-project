@@ -1,25 +1,17 @@
 # Farm Management
 Farm management system using Django, Python, HTML, CSS, JS, and PostgreSQL. Efficiently tracks farmer and crop data, with a user-friendly interface. Open-source project for agriculture management.
 
-## Getting Started
+###Getting Started<br>
 
- 1)git clone "repository-link"
-
- 2)cd "repo-name"
-
- 3)python -m venv env
-
- 4)Activate the virtual environment:
-
- 5)Create a "requirements.txt" file with the dependencies 
-
- 6)pip install -r requirements.txt
-
- 7)python manage.py migrate
-
- 8)python manage.py createsuperuser
-
- 9)python manage.py runserver
+ 1)git clone "repository-link"<br>
+ 2)cd "repo-name"<br>
+ 3)python -m venv env<br>
+ 4)Activate the virtual environment<br>
+ 5)Create a "requirements.txt" file with the dependencies <br>
+ 6)pip install -r requirements.txt<br>
+ 7)python manage.py migrate<br>
+ 8)python manage.py createsuperuser<br>
+ 9)python manage.py runserver<br>
 
 
 ### Prerequisites
@@ -62,10 +54,13 @@ If you want to contribute to this project, please follow these steps:<br>
 1)Fork the repository<br>
 2)Clone your forked repository<br>
 3)Create a new branch           <br>
+
             -git checkout -b "feature-branch"<br>
 4)Make your changes and commit them<br>
+
             -git commit -m 'Add some feature'<br>
 5)Push to the branch<br>
+
             -git push origin "feature-branch"<br>
 6)Create a new Pull Request<br>
 
