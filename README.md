@@ -28,36 +28,34 @@ List the software and tools that need to be installed.
 - Python 3.12.3
 - Django
 - Dependencies  
-        asgiref==3.7.2
-        distlib==0.3.8
-        Django==5.0
-        django-crispy-forms==2.1
-        djangorestframework==3.14.0
-        djangorestframework-simplejwt==5.3.1
-        filelock==3.13.1
-        mysql-connector-python==8.3.0
-        mysqlclient==2.2.1
-        npm==0.1.1
-        optional-django==0.1.0
-        pillow==10.3.0
-        platformdirs==4.1.0
-        psycopg2==2.9.9
-        psycopg2-binary==2.9.9
-        PyJWT==2.8.0
-        PyMySQL==1.1.0
-        pytz==2024.1
-        sqlparse==0.4.4
-        tzdata==2023.3
-        virtualenv==20.25.0
-        virtualenvwrapper-win==1.2.7
+        asgiref==3.7.2 <br>
+        distlib==0.3.8<br>
+        Django==5.0<br>
+        django-crispy-forms==2.1<br>
+        djangorestframework==3.14.0<br>
+        djangorestframework-simplejwt==5.3.1<br>
+        filelock==3.13.1<br>
+        mysql-connector-python==8.3.0<br>
+        mysqlclient==2.2.1<br>
+        npm==0.1.1<br>
+        optional-django==0.1.0<br>
+        pillow==10.3.0<br>
+        platformdirs==4.1.0<br>
+        psycopg2==2.9.9<br>
+        psycopg2-binary==2.9.9<br>
+        PyJWT==2.8.0<br>
+        PyMySQL==1.1.0<br>
+        pytz==2024.1<br>
+        sqlparse==0.4.4<br>
+        tzdata==2023.3<br>
+        virtualenv==20.25.0<br>
+        virtualenvwrapper-win==1.2.7<br>
 
 
 #### Usuage
 After setting up the project and running the development server, you can access the web application by navigating to http://127.0.0.1:8000/ in your web browser.
-
-    1)Login: Use the superuser credentials created during setup to log in to the admin interface at http://127.0.0.1:8000/admin/.
-
-    2)Manage Farmers and Crops: Add, update, and delete farmer and crop records using the admin interface or the provided application forms.
+ 1)Login: Use the superuser credentials created during setup to log in to the admin interface at http://127.0.0.1:8000/admin/.
+ 2)Manage Farmers and Crops: Add, update, and delete farmer and crop records using the admin interface or the provided application forms.
 
 ##### Contributing
 If you want to contribute to this project, please follow these steps:
