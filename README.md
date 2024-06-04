@@ -96,7 +96,7 @@ pip install -r requirements.txt
 python manage.py runserver
 ```
 
-### Screenshots
+## Screenshots
 
 ![login](https://github.com/manojs15/DBMS-mini-project/assets/151378408/cefd17af-bccf-4995-b0f6-a9186f531e25)
 
