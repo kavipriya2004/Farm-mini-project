@@ -142,8 +142,8 @@
 <body>
     <header>
         <div class="language-switch">
-            <a id="english-button" class="language-button" href="{% url 'app:switch_language' language='en' %}?next={{ request.path }}" style="display: {% if LANGUAGE_CODE == 'en' %}none{% endif %}">English</a>
-            <a id="kannada-button" class="language-button" href="{% url 'app:switch_language' language='kn' %}?next={{ request.path }}" style="display: {% if LANGUAGE_CODE == 'kn' %}none{% endif %}">ಕನ್ನಡ</a>
+            <a id="english-button" class="language-button" href="{% url 'app:switch_language' language='en' %}?next={{ request.path }}" style="display: {% if LANGUAGE_CODE == 'en' %}none{% endif %} ">English</a>
+            <a id="kannada-button" class="language-button" href="{% url 'app:switch_language' language='kn' %}?next={{ request.path }}" style="display: {% if LANGUAGE_CODE == 'kn' %}none{% endif %} cd">ಕನ್ನಡ</a>
         </div>  
     </header>
     <h1>Login</h1>

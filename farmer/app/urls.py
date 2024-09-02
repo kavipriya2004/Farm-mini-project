@@ -1,11 +1,20 @@
-from django.urls import path
+from django.urls import path,include
+from rest_framework.routers import DefaultRouter
 from app import views
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 app_name='app'
 
+
+router = DefaultRouter()
+router.register(r'crops', views.CropViewSet)
+
+
 urlpatterns = [
+
+    path('api/', include(router.urls)),
     path('',views.login_view,name='login_page'),
     path('signup/',views.signup_view,name='signup'),
     path('register/',views.register_view,name='register'),

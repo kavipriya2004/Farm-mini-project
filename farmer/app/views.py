@@ -10,6 +10,8 @@ from django.db import models
 from django.urls import reverse
 from django.db.models import Sum, Avg
 from django.db import DatabaseError
+from rest_framework import viewsets
+from .serializers import CropSerializer
 
 
 @login_required
@@ -456,3 +458,10 @@ def custom_logout(request):
 
 def error(request):
     return render(request, 'error_page.html')
+
+
+
+class CropViewSet(viewsets.ModelViewSet):
+    
+    queryset = Crop.objects.all()
+    serializer_class = CropSerializer
