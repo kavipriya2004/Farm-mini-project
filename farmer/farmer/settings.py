@@ -145,7 +145,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [BASE_DIR / 'farmer' / 'static']
 
 LOGIN_REDIRECT_URL = 'app:dashboard'
 
