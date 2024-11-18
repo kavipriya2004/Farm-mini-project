@@ -124,28 +124,28 @@
     </style>
     <script>
         // Function to toggle language buttons
-        function toggleLanguageButtons(language)
-        {
-            const englishButton = document.getElementById('english-button');
-            const kannadaButton = document.getElementById('kannada-button');
+        //function toggleLanguageButtons(language)
+        //{
+            //const englishButton = document.getElementById('english-button');
+            //const kannadaButton = document.getElementById('kannada-button');
 
-            if (language === 'en') {
-                englishButton.style.display = 'none';
-                kannadaButton.style.display = 'inline-block';
-            } else {
-                englishButton.style.display = 'inline-block';
-                kannadaButton.style.display = 'none';
-            }
-        }
+           // if (language === 'en') {
+                //englishButton.style.display = 'none';
+                //kannadaButton.style.display = 'inline-block';
+           // } else {
+                //englishButton.style.display = 'inline-block';
+                //kannadaButton.style.display = 'none';
+           // }
+        //}
     </script>
 </head>
 <body>
-    <header>
+    <!-- <header>
         <div class="language-switch">
             <a id="english-button" class="language-button" href="{% url 'app:switch_language' language='en' %}?next={{ request.path }}" style="display: {% if LANGUAGE_CODE == 'en' %}none{% endif %} ">English</a>
             <a id="kannada-button" class="language-button" href="{% url 'app:switch_language' language='kn' %}?next={{ request.path }}" style="display: {% if LANGUAGE_CODE == 'kn' %}none{% endif %} cd">ಕನ್ನಡ</a>
         </div>  
-    </header>
+    </header> -->
     <h1>Login</h1>
     <br>
     <form method="post" action="{% url 'app:login_page' %}">
